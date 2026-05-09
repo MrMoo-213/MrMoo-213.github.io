@@ -1,132 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guess the Italian Brainrot Character!</title>
-
-<style>
-html, body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-}
-
-h1 {
-    margin-bottom: 20px;
-}
-
-/* ✅ LANDSCAPE CANVAS */
-#character-image {
-    width: 500px;
-    height: 300px;
-    object-fit: cover;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-select {
-    padding: 10px;
-    font-size: 1rem;
-    margin-top: 20px;
-}
-
-button {
-    padding: 10px 20px;
-    margin-top: 15px;
-    cursor: pointer;
-}
-
-.hidden {
-    display: none;
-}
-</style>
-</head>
-
-<body>
-
-<div class="game-container">
-    <h1>Guess the Italian Brainrot Character!</h1>
-
-    <img id="character-image">
-
-    <div id="streak-counter">Streak: 0</div>
-
-    <select id="character-select"></select>
-
-    <button id="select-button">Select</button>
-    <button id="skip-button" style="display:none;">Skip Video</button>
-</div>
-
 <script>
 const files = {
-    "bombardino-crocodilo": ["Bombardino_Crocodilo.webp"],
-    "bombombini-gusini": ["Bombombini_Gusini.webp"],
-    "br-br-patapim": ["Br_Br_Patapim.webp"],
-    "lirili-larila": ["Lirili_Larila.webp"],
-    "tralalero-tralala": ["Tralalero_Tralala.webp"],
-    "trulimero-trulichina": ["Trulimero_Trulichina.webp"],
-    "tung-tung-tung-sahur": ["Tung_Tung_Tung_Sahur.webp"],
-    "boneca-ambalabu": ["Boneca_Ambalabu.webp"],
-    "cappuccino-assassino": ["Cappuccino_Assassino.webp"]
+    "bombardino-crocodilo": ["Bombardino_Crocodilo.webp", "videos/Bombardino_Crocodilo.webm"],
+    "bombombini-gusini": ["Bombombini_Gusini.webp", "videos/Bombombini_Gusini.webm"],
+    "br-br-patapim": ["Br_Br_Patapim.webp", "videos/Br_Br_Patapim.webm"],
+    "lirili-larila": ["Lirili_Larila.webp", "videos/Lirili_Larila.webm"],
+    "tralalero-tralala": ["Tralalero_Tralala.webp", "videos/Tralalero_Tralala.webm"],
+    "trulimero-trulichina": ["Trulimero_Trulichina.webp", "videos/Trulimero_Trulichina.webm"],
+    "tung-tung-tung-sahur": ["Tung_Tung_Tung_Sahur.webp", "videos/Tung_Tung_Tung_Sahur.webm"],
+    "boneca-ambalabu": ["Boneca_Ambalabu.webp", "videos/Boneca_Ambalabu.webm"],
+    "cappuccino-assassino": ["Cappuccino_Assassino.webp", "videos/Cappuccino_Assassino.webm"]
 };
 
-const img = document.getElementById("character-image");
-const select = document.getElementById("character-select");
-const button = document.getElementById("select-button");
-const streakText = document.getElementById("streak-counter");
+const characterImage = document.getElementById('character-image');
+const characterSelect = document.getElementById('character-select');
+const selectButton = document.getElementById('select-button');
+const streakCounter = document.getElementById('streak-counter');
 
-let correct = "";
-let streak = 0;
+let correctAnswer = "";
+let streak = parseInt(getCookie('streak')) || 0;
 
-function loadOptions() {
-    Object.keys(files).forEach(k => {
-        let opt = document.createElement("option");
-        opt.value = k;
-        opt.textContent = k.replace(/-/g, " ");
-        select.appendChild(opt);
+const setCookie = (name, value, days) => {
+    const encodedValue = btoa(value);
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${encodedValue};expires=${date.toUTCString()};path=/`;
+};
+
+const getCookie = (name) => {
+    const cookies = document.cookie.split(';');
+    for (let c of cookies) {
+        c = c.trim();
+        if (c.startsWith(name + "=")) {
+            return atob(c.split("=")[1]);
+        }
+    }
+    return null;
+};
+
+const populateSelectOptions = () => {
+    characterSelect.innerHTML = "";
+    Object.keys(files).forEach(key => {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = key.replace(/-/g, ' ');
+        characterSelect.appendChild(option);
     });
-}
+};
 
-function randomImage() {
-    const keys = Object.keys(files);
-    const key = keys[Math.floor(Math.random() * keys.length)];
-    const file = files[key][0];
-
-    correct = key;
-
-    img.src = "assets/" + file;
-
-    img.onload = () => {
-        randomCrop();
-    };
-}
-
-function randomCrop() {
-    img.style.objectFit = "cover";
+const randomCrop = () => {
     const x = Math.random() * 100;
     const y = Math.random() * 100;
-    img.style.objectPosition = `${x}% ${y}%`;
-}
+    characterImage.style.objectFit = "cover";
+    characterImage.style.objectPosition = `${x}% ${y}%`;
+};
 
-button.onclick = () => {
-    if (select.value === correct) {
+const loadRandomCharacterImage = () => {
+    const keys = Object.keys(files);
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+
+    const imageFile = files[randomKey][0];
+
+    correctAnswer = randomKey;
+
+    characterImage.classList.add('hidden');
+    characterImage.src = `assets/${imageFile}`;
+
+    characterImage.onload = () => {
+        characterImage.classList.remove('hidden');
+        randomCrop();
+    };
+};
+
+const playVideo = (videoSrc) => {
+    const videoElement = document.createElement('video');
+    videoElement.src = `assets/${videoSrc}`;
+    videoElement.autoplay = true;
+    videoElement.playsInline = true;
+
+    const skipButton = document.getElementById('skip-button');
+    skipButton.style.display = 'block';
+
+    characterSelect.disabled = true;
+    selectButton.disabled = true;
+
+    videoElement.addEventListener('ended', () => {
+        location.reload();
+    });
+
+    skipButton.onclick = () => {
+        videoElement.pause();
+        location.reload();
+    };
+
+    characterImage.replaceWith(videoElement);
+};
+
+const updateStreakCounter = () => {
+    streakCounter.textContent = `Streak: ${streak}`;
+};
+
+const checkAnswer = () => {
+    const selectedValue = characterSelect.value;
+
+    const videoFile = files[correctAnswer][1];
+    playVideo(videoFile);
+
+    if (selectedValue === correctAnswer) {
         streak++;
         alert("Correct!");
     } else {
@@ -134,13 +113,13 @@ button.onclick = () => {
         alert("Wrong!");
     }
 
-    streakText.innerText = "Streak: " + streak;
-    randomImage();
+    setCookie('streak', streak, 7);
+    updateStreakCounter();
 };
 
-loadOptions();
-randomImage();
-</script>
+selectButton.addEventListener('click', checkAnswer);
 
-</body>
-</html>
+populateSelectOptions();
+loadRandomCharacterImage();
+updateStreakCounter();
+</script>
