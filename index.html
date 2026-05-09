@@ -77,17 +77,31 @@ function handleCredentialResponse(response) {
 
   const [user, domain] = email.split("@");
 
+  // COLUMN C EXCEPTION CHECK FIRST
+  const exceptionAllowed = sheetData.some(r =>
+    String(r.exception).trim().toLowerCase() === email.toLowerCase()
+  );
+
+  if (exceptionAllowed) {
+    loginSuccess();
+    return;
+  }
+
+  // NORMAL CHECKS
   if (domain !== "imberhorne.co.uk") return msg("Wrong domain");
 
   if (!/^[0-9]+$/.test(user)) return msg("Invalid ID");
 
   const allowed = sheetData.some(r =>
-    String(r.id).trim() === user ||
-    String(r.exception).trim() === email
+    String(r.id).trim() === user
   );
 
   if (!allowed) return msg("Not allowed");
 
+  loginSuccess();
+}
+
+function loginSuccess() {
   localStorage.setItem("login_time", Date.now());
   localStorage.setItem("login_ok", "true");
 
