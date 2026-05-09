@@ -50,6 +50,8 @@ function handleCredentialResponse(response) {
 
   if (!allowed) return msg("Not allowed");
 
+  localStorage.setItem("login_time", Date.now());
+  localStorage.setItem("login_ok", "true");
   location.href = DEST;
 }
 
