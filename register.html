@@ -19,39 +19,34 @@
 
       color: white;
       text-align: center;
+      background-color: #0f0f1e;
     }
 
     h1 {
-      font-size: 4rem;
-      margin-bottom: 30px;
-    }
-
-    p {
-      font-size: 1.5rem;
-      margin: 10px 0;
-    }
-
-    input {
-      width: 350px;
-      padding: 15px;
-      border-radius: 12px;
-      border: none;
-      outline: none;
-      font-size: 1.2rem;
+      font-size: 3rem;
       margin-bottom: 20px;
     }
 
-    button {
-      padding: 15px 40px;
-      font-size: 1.2rem;
-      cursor: pointer;
+    input {
+      width: 320px;
+      padding: 12px;
+      margin: 10px;
+      border-radius: 10px;
       border: none;
-      border-radius: 12px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 12px 30px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
     }
 
     #msg {
       margin-top: 20px;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
   </style>
 </head>
@@ -60,10 +55,7 @@
 
 <h1>Register Your Domain</h1>
 
-<p>Domain</p>
 <input id="domain" placeholder="@example.com">
-
-<p>Initial User</p>
 <input id="user" placeholder="User">
 
 <button onclick="submitRequest()">Request Registration</button>
@@ -71,30 +63,52 @@
 <p id="msg"></p>
 
 <script>
-const WEBHOOK = "https://script.google.com/macros/s/AKfycbwTQTVb4I5XCDIugKJGwFPJFMgPkg7TVb_Sk5Ticwamha-xPT4qsGjvdef3NnwQpU2T/exec";
+const WEBHOOK = "https://script.google.com/macros/s/AKfycbyDYi514toBvZA_YYMuXR2d2Gz29GYvz0cQZWpgOt2b8_EgVBKeB4JRMxMRggrMsxNaog/exec";
+
+function validDomain(d) {
+  return d.includes("@") && d.includes(".") && d.indexOf("@") > 0;
+}
 
 function submitRequest() {
 
-  const inputDomain = document.getElementById("domain").value.trim();
-  const inputUser = document.getElementById("user").value.trim();
+  const domainInput = document.getElementById("domain");
+  const userInput = document.getElementById("user");
 
-  if (!inputDomain || !inputUser) {
-    return msg("Fill all fields");
-  }
+  const domain = domainInput.value.trim();
+  const user = userInput.value.trim();
 
-  fetch(WEBHOOK, {
-    method: "POST",
-    body: JSON.stringify({
-      domain: inputDomain,
-      user: inputUser
-    })
-  })
-  .then(() => {
-    msg("Request submitted");
-  })
-  .catch(() => {
-    msg("Failed");
-  });
+  if (!domain || !user) return msg("Fill all fields");
+
+  if (!validDomain(domain)) return msg("Invalid domain");
+
+  // check duplicate first
+  fetch(WEBHOOK + "?t=" + Date.now())
+    .then(r => r.json())
+    .then(data => {
+
+      const exists = data.some(r =>
+        String(r.domain).trim().toLowerCase() === domain.toLowerCase()
+      );
+
+      if (exists) {
+        msg("Already registered");
+        return;
+      }
+
+      // submit
+      fetch(WEBHOOK, {
+        method: "POST",
+        body: JSON.stringify({ domain, user })
+      })
+      .then(() => {
+        msg("Submitted");
+
+        // clear fields
+        domainInput.value = "";
+        userInput.value = "";
+      });
+
+    });
 }
 
 function msg(t) {
