@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+   <script>
+    const loginTime = localStorage.getItem("login_time");
+    const loginOk = localStorage.getItem("login_ok");
+    
+    if (loginOk || loginTime) {
+      window.location.href = "/home";
+    }
+    
+    if (Date.now() - parseInt(loginTime) < 3600000) {
+      localStorage.removeItem("login_ok");
+      localStorage.removeItem("login_time");
+      window.location.href = "/home";
+    }
+    </script>
   <meta name="google-adsense-account" content="ca-pub-6243945674415929">
   <title>Login</title>
 
