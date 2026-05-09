@@ -40,25 +40,85 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 .button2 {
-  background: linear-gradient(to bottom, #1b3f1b, #4e914a);
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(to bottom, #1b3f1b, #4a914e);
+  color: white;
+  font-family: "Segoe UI", sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 24px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  min-width: 140px;
 }
 
 .button2:hover {
-  background: linear-gradient(to bottom, #2f632c, #67b75b);
+  background: linear-gradient(to bottom, #2c632f, #5bb767);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+}
+
+.button2:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .button3 {
+  position: relative;
+  display: inline-block;
   background: linear-gradient(to bottom, #3f1b1b, #914a4a);
+  color: white;
+  font-family: "Segoe UI", sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 24px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  min-width: 140px;
 }
 
 .button3:hover {
   background: linear-gradient(to bottom, #632c2c, #b75b5b);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+}
+
+.button3:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .button4 {
+  position: relative;
+  display: inline-block;
   background: linear-gradient(to bottom, #3a3a3a, #7a7a7a);
+  color: white;
+  font-family: "Segoe UI", sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 24px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  min-width: 140px;
 }
 
 .button4:hover {
   background: linear-gradient(to bottom, #4a4a4a, #9a9a9a);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+}
+
+.button4:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
