@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register Your Domain</title>
+
+  <link rel="stylesheet" href="/home/buttonStyle.css">
+
+  <style>
+    html, body {
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 30px;
+    }
+
+    p {
+      font-size: 1.5rem;
+      margin: 10px 0;
+    }
+
+    input {
+      width: 350px;
+      padding: 15px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 12px;
+    }
+
+    #msg {
+      margin-top: 20px;
+      font-size: 1.3rem;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Register Your Domain</h1>
+
+<p>Domain</p>
+<input id="domain" placeholder="@example.com">
+
+<p>Initial User</p>
+<input id="user" placeholder="User">
+
+<button onclick="submitRequest()">Request Registration</button>
+
+<p id="msg"></p>
+
+<script>
+const WEBHOOK = "YOUR_GOOGLE_SCRIPT_URL";
+
+function submitRequest() {
+
+  const inputDomain = document.getElementById("domain").value.trim();
+  const inputUser = document.getElementById("user").value.trim();
+
+  if (!inputDomain || !inputUser) {
+    return msg("Fill all fields");
+  }
+
+  fetch(WEBHOOK, {
+    method: "POST",
+    body: JSON.stringify({
+      domain: inputDomain,
+      user: inputUser
+    })
+  })
+  .then(() => {
+    msg("Request submitted");
+  })
+  .catch(() => {
+    msg("Failed");
+  });
+}
+
+function msg(t) {
+  document.getElementById("msg").innerText = t;
+}
+</script>
+
+</body>
+</html>
