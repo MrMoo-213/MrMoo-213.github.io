@@ -104,7 +104,10 @@ function handleCredentialResponse(response) {
 
   loginSuccess();
 }
-
+  
+function redirect(url) {
+  window.location.href = url;
+}
 function loginSuccess() {
   localStorage.setItem("login_time", Date.now());
   localStorage.setItem("login_ok", "true");
