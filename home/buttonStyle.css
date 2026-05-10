@@ -5,6 +5,7 @@ body {
   font-family: "Segoe UI", sans-serif;
 }
 
+/* ── BUTTON CONTAINER ── */
 .button-container {
   display: flex;
   flex-wrap: wrap;
@@ -12,62 +13,53 @@ body {
   justify-content: center;
 }
 
+/* ── GAME ROW ── */
 .game-wrap {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  gap: 0;
 }
 
-.top-row {
+/* ── SIDE CIRCLES (hidden by default, slide in on hover) ── */
+.side-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-/* Rating pill (yellow/green circle on left) */
-.rating-pill {
-  background: radial-gradient(circle at 40% 35%, #c8d400, #7a8a00);
-  color: #1a1a00;
-  font-weight: bold;
+  justify-content: center;
   font-size: 13px;
-  border: none;
-  border-radius: 50%;
-  width: 54px;
-  height: 54px;
+  font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-  transition: transform 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  line-height: 1.2;
   flex-shrink: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
-.rating-pill:hover { transform: scale(1.08); }
-.rating-pill:active { transform: scale(0.95); }
 
-/* Report pill (red circle on right) */
+.rating-pill {
+  background: radial-gradient(circle at 40% 35%, #c8d400, #7a8500);
+  color: #1a1a00;
+  transform: translateX(20px);
+  margin-right: 8px;
+}
+
 .report-pill {
-  background: radial-gradient(circle at 40% 35%, #d44, #7a0000);
+  background: radial-gradient(circle at 40% 35%, #e03030, #7a0000);
   color: white;
-  font-size: 20px;
-  border: none;
-  border-radius: 50%;
-  width: 54px;
-  height: 54px;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-  transition: transform 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  font-size: 18px;
+  transform: translateX(-20px);
+  margin-left: 8px;
 }
-.report-pill:hover { transform: scale(1.08); }
-.report-pill:active { transform: scale(0.95); }
 
-/* Game buttons */
+/* Show circles on row hover */
+.game-wrap:hover .side-btn {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+/* ── GAME BUTTONS ── */
 .button1 {
   background: linear-gradient(to bottom, #1b1c3f, #4a4e91);
   color: white;
@@ -79,15 +71,15 @@ body {
   padding: 12px 24px;
   cursor: pointer;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: all 0.3s ease-in-out;
+  transition: background 0.2s ease;
   min-width: 140px;
 }
 .button1:hover {
   background: linear-gradient(to bottom, #2c2f63, #5b67b7);
-  transform: translateY(-2px);
-  box-shadow: 0 7px 20px rgba(0,0,0,0.3);
 }
-.button1:active { transform: scale(0.95); }
+.button1:active {
+  transform: scale(0.95);
+}
 
 .button2 {
   background: linear-gradient(to bottom, #1b3f1b, #4a914e);
@@ -100,15 +92,15 @@ body {
   padding: 12px 24px;
   cursor: pointer;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: all 0.3s ease-in-out;
+  transition: background 0.2s ease;
   min-width: 140px;
 }
 .button2:hover {
   background: linear-gradient(to bottom, #2c632f, #5bb767);
-  transform: translateY(-2px);
-  box-shadow: 0 7px 20px rgba(0,0,0,0.3);
 }
-.button2:active { transform: scale(0.95); }
+.button2:active {
+  transform: scale(0.95);
+}
 
 .button3 {
   background: linear-gradient(to bottom, #3f1b1b, #914a4a);
@@ -121,12 +113,11 @@ body {
   padding: 12px 24px;
   cursor: pointer;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: all 0.3s ease-in-out;
+  transition: background 0.2s ease;
   min-width: 140px;
 }
 .button3:hover {
   background: linear-gradient(to bottom, #632c2c, #b75b5b);
-  transform: translateY(-2px);
 }
 .button3:active { transform: scale(0.95); }
 
@@ -141,193 +132,133 @@ body {
   padding: 12px 24px;
   cursor: pointer;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: all 0.3s ease-in-out;
+  transition: background 0.2s ease;
   min-width: 140px;
 }
 .button4:hover {
   background: linear-gradient(to bottom, #4a4a4a, #9a9a9a);
-  transform: translateY(-2px);
 }
 .button4:active { transform: scale(0.95); }
 
-/* Overlay */
+/* ── OVERLAY ── */
 #overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.75);
   z-index: 100;
 }
-#overlay.active { display: block; }
+#overlay.active {
+  display: block;
+}
 
-/* Modal */
+/* ── MODALS ── */
 .modal {
   display: none;
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0.85);
   z-index: 101;
-  width: 580px;
-  max-width: 95vw;
-  background: #1e2050;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
-}
-.modal.active { display: block; }
-
-/* Modal top bar */
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background: #1e2050;
-}
-
-.modal-rating-badge {
-  background: radial-gradient(circle at 40% 35%, #c8d400, #7a8a00);
-  color: #1a1a00;
-  font-weight: bold;
-  font-size: 15px;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 300px;
+  background: linear-gradient(160deg, #2a2d6a, #1e2050);
+  border-radius: 24px;
+  padding: 28px 24px 24px;
   text-align: center;
-  line-height: 1.2;
-  flex-shrink: 0;
-}
-
-.modal-title {
-  color: white;
-  font-size: 26px;
-  font-weight: bold;
-  background: linear-gradient(to bottom, #2a2d6a, #4a4e91);
-  border-radius: 30px;
-  padding: 10px 30px;
-  flex: 1;
-  text-align: center;
-  margin: 0 14px;
-}
-
-.modal-report-badge {
-  background: radial-gradient(circle at 40% 35%, #d44, #7a0000);
-  font-size: 24px;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-.modal-report-badge:hover { opacity: 0.85; }
-
-/* Modal body - two panels */
-.modal-body {
-  display: flex;
-  background: #252860;
-  border-radius: 0 0 20px 20px;
-}
-
-.modal-panel {
-  flex: 1;
-  display: flex;
+  box-shadow: 0 12px 50px rgba(0,0,0,0.7);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
   flex-direction: column;
   align-items: center;
-  padding: 20px 16px 24px;
-  gap: 12px;
+  gap: 14px;
+}
+.modal.active {
+  display: flex;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
-.modal-divider {
-  width: 2px;
-  background: white;
-  margin: 16px 0;
-}
-
-.panel-heading {
+.modal-title-text {
   color: white;
+  font-size: 20px;
   font-weight: bold;
-  font-size: 16px;
-  text-align: center;
   text-decoration: underline;
   line-height: 1.4;
+  margin-bottom: 6px;
 }
 
-.stars-row {
-  font-size: 28px;
-  letter-spacing: 2px;
+.stars-display {
+  font-size: 30px;
+  letter-spacing: 3px;
 }
 
 .spinner-row {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   color: white;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
 }
 
 .spinner-arrows {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0;
 }
 
-.arrow-up, .arrow-down {
+.arrow-btn {
   background: none;
   border: none;
   color: white;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
-  padding: 0 4px;
-  line-height: 1;
+  padding: 1px 6px;
+  line-height: 1.2;
+  opacity: 0.8;
 }
-.arrow-up:hover, .arrow-down:hover { color: #aac; }
+.arrow-btn:hover { opacity: 1; }
 
-.btn-rate {
-  background: linear-gradient(to bottom, #2a7a2a, #4db84d);
+.btn-green {
+  background: linear-gradient(to bottom, #2a8a2a, #4ec44e);
   color: white;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 16px;
   border: none;
   border-radius: 30px;
-  padding: 10px 28px;
+  padding: 11px 0;
+  width: 100%;
   cursor: pointer;
-  width: 80%;
   transition: opacity 0.2s;
 }
-.btn-rate:hover { opacity: 0.85; }
+.btn-green:hover { opacity: 0.85; }
 
-.btn-report {
-  background: linear-gradient(to bottom, #aa0000, #dd3333);
+.btn-red {
+  background: linear-gradient(to bottom, #aa0000, #e03030);
   color: white;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 18px;
   border: none;
   border-radius: 30px;
-  padding: 10px 28px;
+  padding: 14px 0;
+  width: 100%;
   cursor: pointer;
-  width: 80%;
+  margin: 16px 0 4px;
   transition: opacity 0.2s;
-  margin-top: 30px;
 }
-.btn-report:hover { opacity: 0.85; }
+.btn-red:hover { opacity: 0.85; }
 
-.btn-close {
+.btn-grey {
   background: linear-gradient(to bottom, #555, #888);
   color: white;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: bold;
   border: none;
   border-radius: 30px;
-  padding: 8px 24px;
+  padding: 10px 0;
+  width: 100%;
   cursor: pointer;
-  width: 80%;
   transition: opacity 0.2s;
 }
-.btn-close:hover { opacity: 0.85; }
+.btn-grey:hover { opacity: 0.85; }
