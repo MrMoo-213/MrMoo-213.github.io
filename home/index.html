@@ -7,8 +7,7 @@
     if (!loginOk || !loginTime) {
       window.location.href = "/index.html";
     }
-
-        
+    
     if (Date.now() - parseInt(loginTime) > 3600000) {
       localStorage.removeItem("login_ok");
       localStorage.removeItem("login_time");
@@ -148,8 +147,8 @@
     </div>
 
     <script>
-        const REVIEWS_URL = "https://script.google.com/macros/s/AKfycbzWUckXPqhYJjekdEeBCe2jRppR6QChfV-Tqb57ubg1Z5tCHOfFoNsDD9nthRDqS3c_/exec";
-        const REPORTS_URL = "https://script.google.com/macros/s/AKfycbyducsNYnfrQluBl12TVuj_JYIX5vlSrpglepkja1NbGnzmiEc1t3RsZKUH0hilMw9CWQ/exec";
+        const REVIEWS_URL = "https://script.google.com/macros/s/AKfycbx-SYjgbFWWJA_4psGukhQdvQAV2kxH4yTpNNpXn1KTJDx5LlwxmxZqVcPK4zBbRKvI/exec";
+        const REPORTS_URL = "https://script.google.com/macros/s/AKfycbyf_JtBHtPIXHfMaR58CYncZztX4mVMCUU1LSjl8DCy12Z1vl1vgi0ceSDIO9x-smTVJg/exec";
 
         let currentGame = "";
         let currentRating = 5;
@@ -205,8 +204,8 @@
             fetch(REVIEWS_URL, {
                 method: "POST",
                 mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ game: currentGame, rating: currentRating })
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "game=" + encodeURIComponent(currentGame) + "&rating=" + currentRating
             });
             closeAll();
         }
@@ -215,8 +214,8 @@
             fetch(REPORTS_URL, {
                 method: "POST",
                 mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ game: currentGame })
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "game=" + encodeURIComponent(currentGame)
             });
             closeAll();
         }
