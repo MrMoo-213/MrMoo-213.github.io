@@ -1,45 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <script>
-    const loginTime = localStorage.getItem("login_time");
-    const loginOk = localStorage.getItem("login_ok");
-    
-    if (!loginOk || !loginTime) {
-      window.location.href = "/login";
-    }
-    
-    if (Date.now() - parseInt(loginTime) > 3600000) {
-      localStorage.removeItem("login_ok");
-      localStorage.removeItem("login_time");
-      window.location.href = "/index.html";
-    }
-    </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6243945674415929"
      crossorigin="anonymous"></script>
 <head>
     <link rel="icon" type="image/png" href="/images/favicon_home.png">
-    <title>MrMoo213 - Home</title>
+    <title>MrMoo213 - Home - Preview</title>
     <link rel="stylesheet" href="buttonStyle.css?v=2">
 </head>
 <body>
     <div class="button-container">
-        <button class="button2" onclick="redirect('/candy')">Candy Crush</button>
-        <button class="button2" onclick="redirect('/gdash')">Geometry Dash</button>
-        <button class="button2" onclick="redirect('/polytrack')">PolyTrack</button>
-        <button class="button1" onclick="redirect('https://outred.github.io/dino3d/')">Dino Run 3D</button>
-        <button class="button1" onclick="redirect('https://crazy-chicken-3d.vercel.app/')">Crazy Cattle 3D</button>
-        <button class="button1" onclick="redirect('https://krabbelstein.de/game/')">Circle Blast</button>
-        <button class="button1" onclick="redirect('https://rahuldshetty.github.io/Pac-Man-Unity-3D-Game/Release/')">Pac Man</button>
-        <button class="button1" onclick="redirect('https://triple-seven-slots.web.app/')">Gambling</button>
-        <button class="button2" onclick="redirect('/fellas')">Merge Fellas</button>
-        <button class="button2" onclick="redirect('/fruits')">Merge Fruits</button>
-        <button class="button1" onclick="redirect('https://italian-brainrot-chi.vercel.app/')">Italian Brainrot 1</button>
-        <button class="button1" onclick="redirect('https://www.phoenixthrush.com/brainrot/')">Guess the Brainrot</button>
-        <button class="button1" onclick="redirect('https://elgoog.hk/')">Google Easter Eggs</button>
-        <button class="button1" onclick="redirect('https://kevinleedrum.github.io/vlackjack/')">Blackjack</button>
-        <button class="button1" onclick="redirect('https://www.wikihow.com/Generator/What-Kind-of-Cheese-Are-You')">What Cheese Are You?</button>
-        <button class="button1" onclick="redirect('https://ffx0s.github.io/mario-html5/dist/')">Mario</button>
-        <button class="button3" onclick="redirect('https://sites.google.com/view/staticquasar931/gm3z/epstein-clicker')">Epstein Clicker +</button>
+        <button class="button2" onclick="redirect('/unsecure/candy-crush/')">Candy Crush</button>
+        <button class="button2" onclick="redirect('/unsecure/geometry-dash')">Geometry Dash</button>
+        <button class="button2" onclick="redirect('/unsecure/polytrack-0.4.1/')">PolyTrack</button>
+        <button class="button2" onclick="redirect('/unsecure/merge-fellas')">Merge Fellas</button>
+        <button class="button2" onclick="redirect('/unsecure/merge-fruits')">Merge Fruits</button>
+        <button class="button1" onclick="redirect('/login')">Login To View All Games!</button>
     </div>
 
     <script>
