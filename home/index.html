@@ -1,240 +1,224 @@
 <!DOCTYPE html>
 <html>
-<script>
-  const loginTime = localStorage.getItem("login_time");
-  const loginOk = localStorage.getItem("login_ok");
-  if (!loginOk || !loginTime) window.location.href = "/index.html";
-  if (Date.now() - parseInt(loginTime) > 3600000) {
-    localStorage.removeItem("login_ok");
-    localStorage.removeItem("login_time");
-    window.location.href = "/index.html";
-  }
-</script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6243945674415929" crossorigin="anonymous"></script>
+    <script>
+    const loginTime = localStorage.getItem("login_time");
+    const loginOk = localStorage.getItem("login_ok");
+    
+    if (!loginOk || !loginTime) {
+      window.location.href = "/index.html";
+    }
+    
+    if (Date.now() - parseInt(loginTime) > 3600000) {
+      localStorage.removeItem("login_ok");
+      localStorage.removeItem("login_time");
+      window.location.href = "/index.html";
+    }
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6243945674415929"
+     crossorigin="anonymous"></script>
 <head>
-  <title>MrMoo213 - Home</title>
-  <link rel="stylesheet" href="buttonStyle.css?v=3">
+    <title>MrMoo213 - Home</title>
+    <link rel="stylesheet" href="buttonStyle.css?v=4">
 </head>
 <body>
 
-  <!-- OVERLAY -->
-  <div id="overlay" onclick="closeAll()"></div>
+    <div id="overlay" onclick="closeAll()"></div>
 
-  <!-- RATE MODAL -->
-  <div id="rate-modal" class="modal">
-    <div class="modal-header">
-      <div class="modal-rating-badge" id="modal-badge">3 ⭐</div>
-      <div class="modal-title" id="modal-title">Mario</div>
-      <div class="modal-report-badge" onclick="submitReportFromModal()">🚩</div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-panel">
-        <div class="panel-heading">Rate This Game</div>
-        <div id="stars-row" class="stars-row">⭐⭐⭐⭐⭐</div>
+    <!-- RATE MODAL -->
+    <div id="rate-modal" class="modal">
+        <div class="modal-title-text">Rate This Game</div>
+        <div id="stars-display" class="stars-display">⭐⭐⭐⭐⭐</div>
         <div class="spinner-row">
-          <span id="spinner-val">5</span>
-          <div class="spinner-arrows">
-            <button class="arrow-up" onclick="changeRating(1)">▲</button>
-            <button class="arrow-down" onclick="changeRating(-1)">▼</button>
-          </div>
+            <span id="spinner-val">5</span>
+            <div class="spinner-arrows">
+                <button class="arrow-btn" onclick="changeRating(1)">▲</button>
+                <button class="arrow-btn" onclick="changeRating(-1)">▼</button>
+            </div>
         </div>
-        <button class="btn-rate" onclick="submitRating()">Rate!</button>
-        <button class="btn-close" onclick="closeAll()">Close</button>
-      </div>
-      <div class="modal-divider"></div>
-      <div class="modal-panel">
-        <div class="panel-heading">Report This Game<br>As Not Working</div>
-        <button class="btn-report" onclick="submitReportFromModal()">Report 🚩</button>
-        <button class="btn-close" onclick="closeAll()">Close</button>
-      </div>
+        <button class="btn-green" onclick="submitRating()">Rate!</button>
+        <button class="btn-grey" onclick="closeAll()"><b>Close</b></button>
     </div>
-  </div>
 
-  <div class="button-container">
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Candy Crush" onclick="openModal('Candy Crush')">– ⭐</button>
-        <button class="button2" onclick="redirect('https://mrmoo-213.github.io/candy')">Candy Crush</button>
-        <button class="report-pill" onclick="quickReport('Candy Crush')">🚩</button>
-      </div>
+    <!-- REPORT MODAL -->
+    <div id="report-modal" class="modal">
+        <div class="modal-title-text">Report This Game<br>As Not Working</div>
+        <button class="btn-red" onclick="submitReport()">Report 🚩</button>
+        <button class="btn-grey" onclick="closeAll()"><b>Close</b></button>
     </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Geometry Dash" onclick="openModal('Geometry Dash')">– ⭐</button>
-        <button class="button2" onclick="redirect('https://mrmoo-213.github.io/gdash')">Geometry Dash</button>
-        <button class="report-pill" onclick="quickReport('Geometry Dash')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="PolyTrack" onclick="openModal('PolyTrack')">– ⭐</button>
-        <button class="button2" onclick="redirect('https://mrmoo-213.github.io/polytrack')">PolyTrack</button>
-        <button class="report-pill" onclick="quickReport('PolyTrack')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Dino Run 3D" onclick="openModal('Dino Run 3D')">– ⭐</button>
-        <button class="button1" onclick="redirect('https://outred.github.io/dino3d/')">Dino Run 3D</button>
-        <button class="report-pill" onclick="quickReport('Dino Run 3D')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Crazy Cattle 3D" onclick="openModal('Crazy Cattle 3D')">– ⭐</button>
-        <button class="button1" onclick="redirect('https://crazy-chicken-3d.vercel.app/')">Crazy Cattle 3D</button>
-        <button class="report-pill" onclick="quickReport('Crazy Cattle 3D')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Circle Blast" onclick="openModal('Circle Blast')">– ⭐</button>
-        <button class="button1" onclick="redirect('https://krabbelstein.de/game/')">Circle Blast</button>
-        <button class="report-pill" onclick="quickReport('Circle Blast')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Pac Man" onclick="openModal('Pac Man')">– ⭐</button>
-        <button class="button1" onclick="redirect('https://rahuldshetty.github.io/Pac-Man-Unity-3D-Game/Release/')">Pac Man</button>
-        <button class="report-pill" onclick="quickReport('Pac Man')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Gambling" onclick="openModal('Gambling')">– ⭐</button>
-        <button class="button1" onclick="redirect('https://triple-seven-slots.web.app/')">Gambling</button>
-        <button class="report-pill" onclick="quickReport('Gambling')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Merge Fellas" onclick="openModal('Merge Fellas')">– ⭐</button>
-        <button class="button2" onclick="redirect('https://mrmoo-213.github.io/fellas')">Merge Fellas</button>
-        <button class="report-pill" onclick="quickReport('Merge Fellas')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Merge Fruits" onclick="openModal('Merge Fruits')">– ⭐</button>
-        <button class="button2" onclick="redirect('https://mrmoo-213.github.io/fruits')">Merge Fruits</button>
-        <button class="report-pill" onclick="quickReport('Merge Fruits')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Italian Brainrot 1" onclick="openModal('Italian Brainrot 1')">– ⭐</button>
-        <button class="button1" onclick="redirect('https://italian-brainrot-chi.vercel.app/')">Italian Brainrot 1</button>
-        <button class="report-pill" onclick="quickReport('Italian Brainrot 1')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Guess the Brainrot" onclick="openModal('Guess the Brainrot')">– ⭐</button>
-        <button class="button1" onclick="redirect('https://www.phoenixthrush.com/brainrot/')">Guess the Brainrot</button>
-        <button class="report-pill" onclick="quickReport('Guess the Brainrot')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Google Easter Eggs" onclick="openModal('Google Easter Eggs')">– ⭐</button>
-        <button class="button1" onclick="redirect('https://elgoog.hk/')">Google Easter Eggs</button>
-        <button class="report-pill" onclick="quickReport('Google Easter Eggs')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Blackjack" onclick="openModal('Blackjack')">– ⭐</button>
-        <button class="button1" onclick="redirect('https://kevinleedrum.github.io/vlackjack/')">Blackjack</button>
-        <button class="report-pill" onclick="quickReport('Blackjack')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="What Cheese Are You?" onclick="openModal('What Cheese Are You?')">– ⭐</button>
-        <button class="button1" onclick="redirect('https://www.wikihow.com/Generator/What-Kind-of-Cheese-Are-You')">What Cheese Are You?</button>
-        <button class="report-pill" onclick="quickReport('What Cheese Are You?')">🚩</button>
-      </div>
-    </div>
-    <div class="game-wrap">
-      <div class="top-row">
-        <button class="rating-pill" data-game="Mario" onclick="openModal('Mario')">– ⭐</button>
-        <button class="button1" onclick="redirect('https://ffx0s.github.io/mario-html5/dist/')">Mario</button>
-        <button class="report-pill" onclick="quickReport('Mario')">🚩</button>
-      </div>
-    </div>
-  </div>
 
-  <script>
-    const REVIEWS_URL = "https://script.google.com/macros/s/AKfycbzWUckXPqhYJjekdEeBCe2jRppR6QChfV-Tqb57ubg1Z5tCHOfFoNsDD9nthRDqS3c_/exec";
-    const REPORTS_URL = "https://script.google.com/macros/s/AKfycbyducsNYnfrQluBl12TVuj_JYIX5vlSrpglepkja1NbGnzmiEc1t3RsZKUH0hilMw9CWQ/exec";
+    <div class="button-container">
 
-    let currentGame = "";
-    let currentRating = 5;
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Candy Crush" onclick="openRate('Candy Crush')">– ⭐</div>
+            <button class="button2" onclick="redirect('https://mrmoo-213.github.io/candy')">Candy Crush</button>
+            <div class="side-btn report-pill" onclick="openReport('Candy Crush')">🚩</div>
+        </div>
 
-    function redirect(url) { window.location.href = url; }
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Geometry Dash" onclick="openRate('Geometry Dash')">– ⭐</div>
+            <button class="button2" onclick="redirect('https://mrmoo-213.github.io/gdash')">Geometry Dash</button>
+            <div class="side-btn report-pill" onclick="openReport('Geometry Dash')">🚩</div>
+        </div>
 
-    // Load averages
-    fetch(REVIEWS_URL)
-      .then(r => r.json())
-      .then(data => {
-        data.forEach(entry => {
-          if (entry.average !== null) {
-            const avg = parseFloat(entry.average).toFixed(1);
-            document.querySelectorAll(`.rating-pill[data-game="${entry.game}"]`)
-              .forEach(btn => btn.textContent = avg + " ⭐");
-          }
-        });
-      })
-      .catch(() => {});
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="PolyTrack" onclick="openRate('PolyTrack')">– ⭐</div>
+            <button class="button2" onclick="redirect('https://mrmoo-213.github.io/polytrack')">PolyTrack</button>
+            <div class="side-btn report-pill" onclick="openReport('PolyTrack')">🚩</div>
+        </div>
 
-    function openModal(game) {
-      currentGame = game;
-      currentRating = 5;
-      document.getElementById("modal-title").textContent = game;
-      updateModal();
-      document.getElementById("overlay").classList.add("active");
-      document.getElementById("rate-modal").classList.add("active");
-    }
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Dino Run 3D" onclick="openRate('Dino Run 3D')">– ⭐</div>
+            <button class="button1" onclick="redirect('https://outred.github.io/dino3d/')">Dino Run 3D</button>
+            <div class="side-btn report-pill" onclick="openReport('Dino Run 3D')">🚩</div>
+        </div>
 
-    function closeAll() {
-      document.getElementById("overlay").classList.remove("active");
-      document.getElementById("rate-modal").classList.remove("active");
-    }
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Crazy Cattle 3D" onclick="openRate('Crazy Cattle 3D')">– ⭐</div>
+            <button class="button1" onclick="redirect('https://crazy-chicken-3d.vercel.app/')">Crazy Cattle 3D</button>
+            <div class="side-btn report-pill" onclick="openReport('Crazy Cattle 3D')">🚩</div>
+        </div>
 
-    function changeRating(dir) {
-      currentRating = Math.min(5, Math.max(1, currentRating + dir));
-      updateModal();
-    }
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Circle Blast" onclick="openRate('Circle Blast')">– ⭐</div>
+            <button class="button1" onclick="redirect('https://krabbelstein.de/game/')">Circle Blast</button>
+            <div class="side-btn report-pill" onclick="openReport('Circle Blast')">🚩</div>
+        </div>
 
-    function updateModal() {
-      document.getElementById("spinner-val").textContent = currentRating;
-      document.getElementById("stars-row").textContent = "⭐".repeat(currentRating);
-      document.getElementById("modal-badge").textContent = currentRating + " ⭐";
-    }
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Pac Man" onclick="openRate('Pac Man')">– ⭐</div>
+            <button class="button1" onclick="redirect('https://rahuldshetty.github.io/Pac-Man-Unity-3D-Game/Release/')">Pac Man</button>
+            <div class="side-btn report-pill" onclick="openReport('Pac Man')">🚩</div>
+        </div>
 
-    function submitRating() {
-      fetch(REVIEWS_URL, {
-        method: "POST",
-        body: JSON.stringify({ game: currentGame, rating: currentRating })
-      }).catch(() => {});
-      closeAll();
-    }
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Gambling" onclick="openRate('Gambling')">– ⭐</div>
+            <button class="button1" onclick="redirect('https://triple-seven-slots.web.app/')">Gambling</button>
+            <div class="side-btn report-pill" onclick="openReport('Gambling')">🚩</div>
+        </div>
 
-    function submitReportFromModal() {
-      fetch(REPORTS_URL, {
-        method: "POST",
-        body: JSON.stringify({ game: currentGame })
-      }).catch(() => {});
-      closeAll();
-    }
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Merge Fellas" onclick="openRate('Merge Fellas')">– ⭐</div>
+            <button class="button2" onclick="redirect('https://mrmoo-213.github.io/fellas')">Merge Fellas</button>
+            <div class="side-btn report-pill" onclick="openReport('Merge Fellas')">🚩</div>
+        </div>
 
-    function quickReport(game) {
-      fetch(REPORTS_URL, {
-        method: "POST",
-        body: JSON.stringify({ game: game })
-      }).catch(() => {});
-    }
-  </script>
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Merge Fruits" onclick="openRate('Merge Fruits')">– ⭐</div>
+            <button class="button2" onclick="redirect('https://mrmoo-213.github.io/fruits')">Merge Fruits</button>
+            <div class="side-btn report-pill" onclick="openReport('Merge Fruits')">🚩</div>
+        </div>
+
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Italian Brainrot 1" onclick="openRate('Italian Brainrot 1')">– ⭐</div>
+            <button class="button1" onclick="redirect('https://italian-brainrot-chi.vercel.app/')">Italian Brainrot 1</button>
+            <div class="side-btn report-pill" onclick="openReport('Italian Brainrot 1')">🚩</div>
+        </div>
+
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Guess the Brainrot" onclick="openRate('Guess the Brainrot')">– ⭐</div>
+            <button class="button1" onclick="redirect('https://www.phoenixthrush.com/brainrot/')">Guess the Brainrot</button>
+            <div class="side-btn report-pill" onclick="openReport('Guess the Brainrot')">🚩</div>
+        </div>
+
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Google Easter Eggs" onclick="openRate('Google Easter Eggs')">– ⭐</div>
+            <button class="button1" onclick="redirect('https://elgoog.hk/')">Google Easter Eggs</button>
+            <div class="side-btn report-pill" onclick="openReport('Google Easter Eggs')">🚩</div>
+        </div>
+
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Blackjack" onclick="openRate('Blackjack')">– ⭐</div>
+            <button class="button1" onclick="redirect('https://kevinleedrum.github.io/vlackjack/')">Blackjack</button>
+            <div class="side-btn report-pill" onclick="openReport('Blackjack')">🚩</div>
+        </div>
+
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="What Cheese Are You?" onclick="openRate('What Cheese Are You?')">– ⭐</div>
+            <button class="button1" onclick="redirect('https://www.wikihow.com/Generator/What-Kind-of-Cheese-Are-You')">What Cheese Are You?</button>
+            <div class="side-btn report-pill" onclick="openReport('What Cheese Are You?')">🚩</div>
+        </div>
+
+        <div class="game-wrap">
+            <div class="side-btn rating-pill" data-game="Mario" onclick="openRate('Mario')">– ⭐</div>
+            <button class="button1" onclick="redirect('https://ffx0s.github.io/mario-html5/dist/')">Mario</button>
+            <div class="side-btn report-pill" onclick="openReport('Mario')">🚩</div>
+        </div>
+
+    </div>
+
+    <script>
+        const REVIEWS_URL = "https://script.google.com/macros/s/AKfycbzWUckXPqhYJjekdEeBCe2jRppR6QChfV-Tqb57ubg1Z5tCHOfFoNsDD9nthRDqS3c_/exec";
+        const REPORTS_URL = "https://script.google.com/macros/s/AKfycbyducsNYnfrQluBl12TVuj_JYIX5vlSrpglepkja1NbGnzmiEc1t3RsZKUH0hilMw9CWQ/exec";
+
+        let currentGame = "";
+        let currentRating = 5;
+
+        function redirect(url) {
+            window.location.href = url;
+        }
+
+        fetch(REVIEWS_URL)
+            .then(r => r.json())
+            .then(data => {
+                data.forEach(entry => {
+                    if (entry.average !== null && entry.count > 0) {
+                        const avg = parseFloat(entry.average).toFixed(1);
+                        document.querySelectorAll(`.rating-pill[data-game="${entry.game}"]`)
+                            .forEach(btn => { btn.textContent = avg + " ⭐"; });
+                    }
+                });
+            })
+            .catch(() => {});
+
+        function openRate(game) {
+            currentGame = game;
+            currentRating = 5;
+            updateRateModal();
+            document.getElementById("overlay").classList.add("active");
+            document.getElementById("rate-modal").classList.add("active");
+        }
+
+        function openReport(game) {
+            currentGame = game;
+            document.getElementById("overlay").classList.add("active");
+            document.getElementById("report-modal").classList.add("active");
+        }
+
+        function closeAll() {
+            document.getElementById("overlay").classList.remove("active");
+            document.getElementById("rate-modal").classList.remove("active");
+            document.getElementById("report-modal").classList.remove("active");
+        }
+
+        function changeRating(dir) {
+            currentRating = Math.min(5, Math.max(1, currentRating + dir));
+            updateRateModal();
+        }
+
+        function updateRateModal() {
+            document.getElementById("spinner-val").textContent = currentRating;
+            document.getElementById("stars-display").textContent = "⭐".repeat(currentRating);
+        }
+
+        function submitRating() {
+            fetch(REVIEWS_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ game: currentGame, rating: currentRating })
+            });
+            closeAll();
+        }
+
+        function submitReport() {
+            fetch(REPORTS_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ game: currentGame })
+            });
+            closeAll();
+        }
+    </script>
 </body>
 </html>
