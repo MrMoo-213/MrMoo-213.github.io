@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<head>
     <script>
     const loginTime = localStorage.getItem("login_time");
     const loginOk = localStorage.getItem("login_ok");
@@ -16,7 +17,6 @@
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6243945674415929"
      crossorigin="anonymous"></script>
-<head>
     <title>MrMoo213 - Home</title>
     <link rel="stylesheet" href="buttonStyle.css?v=4">
 </head>
@@ -157,18 +157,24 @@
             window.location.href = url;
         }
 
-        fetch(REVIEWS_URL)
-            .then(r => r.json())
-            .then(data => {
-                data.forEach(entry => {
-                    if (entry.average !== null && entry.count > 0) {
-                        const avg = parseFloat(entry.average).toFixed(1);
-                        document.querySelectorAll(`.rating-pill[data-game="${entry.game}"]`)
-                            .forEach(btn => { btn.textContent = avg + " ⭐"; });
-                    }
-                });
-            })
-            .catch(() => {});
+        // Load averages via JSONP to bypass CORS
+        function loadAverages() {
+            const script = document.createElement("script");
+            script.src = REVIEWS_URL + "?callback=handleAverages";
+            document.body.appendChild(script);
+        }
+
+        function handleAverages(data) {
+            data.forEach(entry => {
+                if (entry.average !== null && entry.count > 0) {
+                    const avg = parseFloat(entry.average).toFixed(1);
+                    document.querySelectorAll(`.rating-pill[data-game="${entry.game}"]`)
+                        .forEach(btn => { btn.textContent = avg + " ⭐"; });
+                }
+            });
+        }
+
+        loadAverages();
 
         function openRate(game) {
             currentGame = game;
