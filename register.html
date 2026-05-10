@@ -63,11 +63,7 @@
 <p id="msg"></p>
 
 <script>
-const WEBHOOK = "https://script.google.com/macros/s/AKfycbx7BEoyN1z4-FUrVXEgWkLrScMO7aXk3xQ0JOfIHqdzCfgc_TvIy0vN8qhtISxp7BEp/exec";
-
-function validDomain(d) {
-  return d.includes("@") && d.includes(".") && d.indexOf("@") > 0;
-}
+const WEBHOOK = "https://script.google.com/macros/s/AKfycbyDYi514toBvZA_YYMuXR2d2Gz29GYvz0cQZWpgOt2b8_EgVBKeB4JRMxMRggrMsxNaog/exec";
 
 function submitRequest() {
 
@@ -78,8 +74,6 @@ function submitRequest() {
   const user = userInput.value.trim();
 
   if (!domain || !user) return msg("Fill all fields");
-
-  if (!validDomain(domain)) return msg("Invalid domain");
 
   // check duplicate first
   fetch(WEBHOOK + "?t=" + Date.now())
