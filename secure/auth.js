@@ -2,7 +2,7 @@ const loginTime = localStorage.getItem("login_time");
 const loginOk = localStorage.getItem("login_ok");
 
 if (!loginOk || !loginTime) {
-  window.location.href = "/index.html";
+  window.location.href = "/login";
 }
 
 if (Date.now() - parseInt(loginTime) > 3600000) {
