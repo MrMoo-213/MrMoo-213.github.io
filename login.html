@@ -2,45 +2,66 @@
 <html>
 <head>
   <link rel="icon" type="image/png" href="/images/favicon_lock.png">
-  <meta name="google-adsense-account" content="ca-pub-6243945674415929">
+
+  <meta name="google-adsense-account"
+        content="ca-pub-6243945674415929">
+
   <title>Login</title>
 
-  <link rel="stylesheet" href="/home/buttonStyle.css">
+  <link rel="stylesheet"
+        href="/home/buttonStyle.css">
 
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://accounts.google.com/gsi/client"
+          async defer></script>
 
   <style>
+
     html, body {
+
       margin: 0;
+
       width: 100vw;
       height: 100vh;
+
       overflow: hidden;
 
       display: flex;
+
       justify-content: center;
       align-items: center;
+
       flex-direction: column;
 
       color: white;
+
       text-align: center;
     }
 
     h1 {
+
       font-size: 4rem;
+
       margin-bottom: 30px;
     }
 
     #msg {
+
       margin-top: 25px;
+
       color: white;
+
       font-size: 2rem;
     }
 
     .googleWrap {
+
       margin-top: 20px;
+
       transform: scale(2);
     }
+
   </style>
+
 </head>
 
 <body>
@@ -51,75 +72,101 @@
      data-client_id="153021305449-dbjk0p41c7o5a26aqmmb87pk85b8lcb3.apps.googleusercontent.com"
      data-callback="handleCredentialResponse">
 </div>
+
 <div style="height: 10px;"></div>
+
 <div class="googleWrap 1button">
   <div class="g_id_signin"></div>
-  <body>
-    <div style="height: 10px;"></div>
-    <div class="button-container">
-        <button class="button2" onclick="redirect('/home')">Already Logged In?</button>
-    </div>
+</div>
+
+<div style="height: 20px;"></div>
+
+<div class="button-container">
+    <button class="button2"
+            onclick="redirect('/home')">
+        Already Logged In?
+    </button>
 </div>
 
 <p id="msg"></p>
 
 <script>
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbyDYi514toBvZA_YYMuXR2d2Gz29GYvz0cQZWpgOt2b8_EgVBKeB4JRMxMRggrMsxNaog/exec";
+
+const SHEET_URL =
+"https://script.google.com/macros/s/AKfycbyDYi514toBvZA_YYMuXR2d2Gz29GYvz0cQZWpgOt2b8_EgVBKeB4JRMxMRggrMsxNaog/exec";
+
 const DEST = "/home";
 
-let sheetData = [];
+let allowedEmails = [];
 
 fetch(SHEET_URL + "?t=" + Date.now())
-  .then(r => r.json())
-  .then(d => sheetData = d);
+
+.then(r => r.json())
+
+.then(data => {
+
+    allowedEmails = data.map(r =>
+        String(r.email)
+        .trim()
+        .toLowerCase()
+    );
+});
 
 function handleCredentialResponse(response) {
-  const p = JSON.parse(atob(response.credential.split('.')[1]));
 
-  const email = String(p.email).trim();
-  const verified = p.email_verified;
+    const p =
+      JSON.parse(
+        atob(
+          response.credential.split('.')[1]
+        )
+      );
 
-  if (!verified) return msg("Not verified");
+    const email =
+      String(p.email)
+      .trim()
+      .toLowerCase();
 
-  const [user, domain] = email.split("@");
+    const verified =
+      p.email_verified;
 
-  // COLUMN C EXCEPTION CHECK FIRST
-  const exceptionAllowed = sheetData.some(r =>
-    String(r.exception).trim().toLowerCase() === email.toLowerCase()
-  );
+    if (!verified)
+      return msg("Not verified");
 
-  if (exceptionAllowed) {
+    const allowed =
+      allowedEmails.includes(email);
+
+    if (!allowed)
+      return msg("Not allowed");
+
     loginSuccess();
-    return;
-  }
-
-  // NORMAL CHECKS
-  if (domain !== "imberhorne.co.uk") return msg("Wrong domain");
-
-  if (!/^[0-9]+$/.test(user)) return msg("Invalid ID");
-
-  const allowed = sheetData.some(r =>
-    String(r.id).trim() === user
-  );
-
-  if (!allowed) return msg("Not allowed");
-
-  loginSuccess();
 }
-  
+
 function redirect(url) {
-  window.location.href = url;
-}
-function loginSuccess() {
-  localStorage.setItem("login_time", Date.now());
-  localStorage.setItem("login_ok", "true");
 
-  location.href = DEST;
+    window.location.href = url;
+}
+
+function loginSuccess() {
+
+    localStorage.setItem(
+      "login_time",
+      Date.now()
+    );
+
+    localStorage.setItem(
+      "login_ok",
+      "true"
+    );
+
+    location.href = DEST;
 }
 
 function msg(t) {
-  document.getElementById("msg").innerText = t;
+
+    document.getElementById("msg")
+      .innerText = t;
 }
+
 </script>
 
 </body>
